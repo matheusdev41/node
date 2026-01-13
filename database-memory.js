@@ -5,8 +5,23 @@ export class DatabaseMemory {
 
     // Set, Map
 
-    list() {
-        return Array.from(this.#videos.values())
+    list(search) {
+        return Array.from(this.#videos.entries()).map((videArray) => {
+            const id = videArray[0]
+            const data = videArray[1]
+            
+            return {
+                id,
+                ...data,
+            }
+        })
+        .filter(video => {
+            if (search) {
+                return video.title.includes(search)
+            }
+
+            return true
+        })
     }
 
     create(video) {
